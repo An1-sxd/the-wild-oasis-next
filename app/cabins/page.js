@@ -6,6 +6,10 @@ export const metadata = {
   title: "Cabins",
 };
 
+// export const revalidate = 0; // Revalidate this page on every request (no caching / opt to dynamic)
+// export const dynamic = "force-dynamic"; // Force dynamic rendering (no caching)
+export const revalidate = 3600; // Revalidate this page every 1 hour (3600 seconds)
+
 export default function Page() {
   return (
     <div>
