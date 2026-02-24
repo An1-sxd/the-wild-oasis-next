@@ -1,16 +1,18 @@
 import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
+import Filter from "../_components/Filter";
 
 export const metadata = {
   title: "Cabins",
 };
 
-// export const revalidate = 0; // Revalidate this page on every request (no caching / opt to dynamic)
-// export const dynamic = "force-dynamic"; // Force dynamic rendering (no caching)
-export const revalidate = 3600; // Revalidate this page every 1 hour (3600 seconds)
+// export const revalidate = 3600; // Revalidate this page every 1 hour (3600 seconds)
 
-export default function Page() {
+export default async function Page({ searchParams }) {
+  const params = await searchParams;
+  const capacity = params.capacity || 'all';
+
   return (
     <div>
       <h1 className="text-4xl mb-5 text-accent-400 font-medium">
@@ -25,8 +27,12 @@ export default function Page() {
         Welcome to paradise.
       </p>
 
-      <Suspense fallback={<Spinner />}>
-        <CabinList />
+      <div className="flex justify-end mb-8">
+        <Filter />
+      </div>
+
+      <Suspense fallback={<Spinner />} key={capacity}>
+        <CabinList capacity={capacity} />
       </Suspense>
     </div>
   );
